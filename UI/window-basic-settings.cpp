@@ -569,6 +569,8 @@ OBSBasicSettings::OBSBasicSettings(QWidget *parent)
 #endif
 	HookWidget(ui->filenameFormatting,   EDIT_CHANGED,   ADV_CHANGED);
 	HookWidget(ui->overwriteIfExists,    CHECK_CHANGED,  ADV_CHANGED);
+	HookWidget(ui->remuxPrefix,          EDIT_CHANGED,   ADV_CHANGED);
+	HookWidget(ui->remuxSuffix,          EDIT_CHANGED,   ADV_CHANGED);
 	HookWidget(ui->simpleRBPrefix,       EDIT_CHANGED,   ADV_CHANGED);
 	HookWidget(ui->simpleRBSuffix,       EDIT_CHANGED,   ADV_CHANGED);
 	HookWidget(ui->streamDelayEnable,    CHECK_CHANGED,  ADV_CHANGED);
@@ -2911,6 +2913,10 @@ void OBSBasicSettings::LoadAdvancedSettings()
 	int rbTime = config_get_int(main->Config(), "AdvOut", "RecRBTime");
 	int rbSize = config_get_int(main->Config(), "AdvOut", "RecRBSize");
 	bool autoRemux = config_get_bool(main->Config(), "Video", "AutoRemux");
+	const char *remuxPrefix =
+		config_get_string(main->Config(), "Video", "RemuxPrefix");
+	const char *remuxSuffix =
+		config_get_string(main->Config(), "Video", "RemuxSuffix");
 	const char *hotkeyFocusType = config_get_string(
 		App()->GlobalConfig(), "General", "HotkeyFocusType");
 	bool dynBitrate =
@@ -2933,6 +2939,8 @@ void OBSBasicSettings::LoadAdvancedSettings()
 
 	ui->filenameFormatting->setText(filename);
 	ui->overwriteIfExists->setChecked(overwriteIfExists);
+	ui->remuxPrefix->setText(remuxPrefix);
+	ui->remuxSuffix->setText(remuxSuffix);
 	ui->simpleRBPrefix->setText(rbPrefix);
 	ui->simpleRBSuffix->setText(rbSuffix);
 
@@ -3685,6 +3693,8 @@ void OBSBasicSettings::SaveAdvancedSettings()
 	SaveSpinBox(ui->reconnectMaxRetries, "Output", "MaxRetries");
 	SaveComboData(ui->bindToIP, "Output", "BindIP");
 	SaveComboData(ui->ipFamily, "Output", "IPFamily");
+	SaveEdit(ui->remuxPrefix, "Video", "RemuxPrefix");
+	SaveEdit(ui->remuxSuffix, "Video", "RemuxSuffix");
 	SaveCheckBox(ui->autoRemux, "Video", "AutoRemux");
 	SaveCheckBox(ui->dynBitrate, "Output", "DynamicBitrate");
 
