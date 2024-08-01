@@ -62,8 +62,8 @@ class OBSRemux : public QDialog {
 public:
 	explicit OBSRemux(const char *recPath, QWidget *parent = nullptr,
 			  bool autoRemux = false,
-			  QString remuxPrefix_ = QString(),
-			  QString remuxSuffix_ = QString());
+			  const char *remuxPrefix_ = nullptr,
+			  const char *remuxSuffix_ = nullptr);
 	virtual ~OBSRemux() override;
 
 	using job_t = std::shared_ptr<struct media_remux_job>;
@@ -98,11 +98,11 @@ class RemuxQueueModel : public QAbstractTableModel {
 
 public:
 	RemuxQueueModel(QObject *parent = 0,
-			QString remuxPrefix_ = QString(),
-			QString remuxSuffix_ = QString())
+			const char *remuxPrefix_ = nullptr,
+			const char *remuxSuffix_ = nullptr)
 		: QAbstractTableModel(parent),
-		  remuxSuffix(remuxSuffix_),
 		  remuxPrefix(remuxPrefix_),
+		  remuxSuffix(remuxSuffix_),
 		  isProcessing(false)
 	{
 	}
@@ -126,8 +126,8 @@ public:
 	void clearAll();
 
 	bool autoRemux = false;
-	QString remuxSuffix;
-	QString remuxPrefix;
+	const char *remuxPrefix;
+	const char *remuxSuffix;
 
 private:
 	struct RemuxQueueEntry {
